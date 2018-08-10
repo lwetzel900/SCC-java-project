@@ -7,10 +7,10 @@ package controller;
 
 import business.Person;
 import java.io.IOException;
-import java.io.PrintWriter;
+
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.ArrayList;
+
 import java.util.LinkedHashMap;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -42,11 +42,9 @@ public class Controller extends HttpServlet {
 
         LocalDate today = LocalDate.now();
         request.setAttribute("today", today);
-        request.setAttribute("message", message);
+
         HttpSession session = request.getSession();//session start
 
-//LinkedHashMap<String, Person> linkMap = (LinkedHashMap) session.getAttribute("linkMap");
-//session.setAttribute("linkMap", linkMap);
         String action = request.getParameter("action");
         if (action == null) {
             action = "first";
@@ -57,15 +55,16 @@ public class Controller extends HttpServlet {
         if (linkMap == null) {
             linkMap = new LinkedHashMap();
         }
-//session.setAttribute("linkMap", linkMap);
+
         switch (action) {
             case "first":
                 url = "/display.jsp";
-//                session.setAttribute("linkMap", linkMap);
+
                 linkMap.put("731", new Person("Pris", "", "Stratton", 731,
                         LocalDate.of(2016, Month.FEBRUARY, 14), LocalDate.of(2016, Month.FEBRUARY, 14)));
                 linkMap.put("734", new Person("Roy", "", "Batty", 734,
                         LocalDate.of(2016, Month.JANUARY, 8), LocalDate.of(2016, Month.JANUARY, 9)));
+
                 session.setAttribute("linkMap", linkMap);
                 break;
             case "add":
@@ -74,37 +73,60 @@ public class Controller extends HttpServlet {
                 String fName = request.getParameter("fName");
                 String mName = request.getParameter("mName");
                 String lName = request.getParameter("lName");
-                String empID = request.getParameter("empID");
-                LocalDate bDay = LocalDate.parse(request.getParameter("bDay"));
-                LocalDate hireDate = LocalDate.parse(request.getParameter("hireDate"));
+                String tempEmpID = request.getParameter("empID");
+                Integer empID = null;
+                String tempBDay = request.getParameter("bDay");
+                LocalDate bDay = null;
+                String tempHireDate = request.getParameter("hireDate");
+                LocalDate hireDate = null;
 
+                try {
+                    empID = Integer.parseInt(tempEmpID);
+                } catch (NumberFormatException e) {
+                    message += "ID must be a number. <br>";
+                    url = "/display.jsp";
+                }
                 if (fName == null || fName.isEmpty()) {
-                    message = "Need a first name";
+                    message += "Need a first name <br>";
                     url = "/display.jsp";
-                } 
-                if(lName == null || fName.isEmpty()){
-                    message = "Need a last name";
+                } else if (lName == null || lName.isEmpty()) {
+                    message += "Need a last name ";
                     url = "/display.jsp";
-                }
-                
-                else {
+                } else {
+                    try {
+                        hireDate = LocalDate.parse(tempHireDate);
+                    } catch (Exception e) {
+                        message += "Hire Date needs to be a present and a date <br>";
+                        url = "/display.jsp";
+                    }
+                    try {
+                        bDay = LocalDate.parse(tempBDay);
+                    } catch (Exception e) {
+                        message += "Birthday needs to be a present and a date <br>";
+                        url = "/display.jsp";
+                    }
 
-//                    try {
-//                        hireDate = LocalDate.parse(tempDate);
-//                    } catch (Exception e) {
-//                        message += "Must have a valid date to search.";
-//                        url = "/search.jsp";
-//                    }
-                    Person person = new Person(fName, mName, lName, Integer.parseInt(empID), bDay, hireDate);
-                    linkMap.put(empID, person);
+                    if (linkMap.containsKey(tempEmpID)) {
+                        message += "That ID already exists. Pick Something else";
+                        url = "/display.jsp";
+                    } else {
+                        Person person = new Person(fName, mName, lName, empID, bDay, hireDate);
+                        linkMap.put(String.valueOf(empID), person);
+                    }
                 }
+                request.setAttribute("fName", fName);
+                request.setAttribute("lName", lName);
+                request.setAttribute("mName", mName);
+                request.setAttribute("empID", empID);
+                request.setAttribute("bDay", bDay);
+                request.setAttribute("hireDate", hireDate);
+                request.setAttribute("message", message);
                 break;
             case "delete":
                 url = "/display.jsp";
                 linkMap.remove(request.getParameter("empID"));
                 break;
             case "home":
-//                            url = "/display.jsp";
                 session.invalidate();
                 url = "/display.jsp";
                 break;

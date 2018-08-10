@@ -11,7 +11,7 @@
         <p>Just item.lastName causes an error because item is a LinkedHashMap$Entry not a Person.
             A LinkedHashMap$Entry has a key and a value, the stored Person is in the .value</p>
         <br>
-        <h2 class="error">"${message}"</h2>
+        <h2 class="error">${message}</h2>
 
         <table style="overflow-x:auto;">
             <tr>
@@ -52,25 +52,26 @@
             <input type="hidden" name="action" value="add">
 
             <label>Employee ID  </label>
-            <input class="searchInput" type="text" name="empID" ><br>
+            <input class="searchInput" type="text" name="empID" value="${empID}"><br>
 
             <label>First Name </label>
-            <input class="searchInput" type="text" name="fName" ><br>
+            <input class="searchInput" type="text" name="fName" value="${fName}"><br>
 
             <label>Middle Name </label>
-            <input class="searchInput" type="text" name="mName" ><br>
+            <input class="searchInput" type="text" name="mName" value="${mName}"><br>
 
             <label>Last Name  </label>
-            <input class="searchInput" type="text" name="lName" ><br>
+            <input class="searchInput" type="text" name="lName" value="${lName}"><br>
 
             <label>Birth Date</label>
-            <input class="searchInput" type="date" name="bDay" max="${today}"><br>
+            <input class="searchInput" type="date" name="bDay" max="${today}"value="${bDay}"><br>
 
             <label>Hire Date </label>
-            <input class="searchInput" type="date" name="hireDate" value="${today}" max="${today}"><br>
+            <input class="searchInput" type="date" name="hireDate" value="${hireDate}" max="${today}"><br>
 
             <label>&nbsp;</label>
             <input class="searchInput"  type="submit" value="Add">
+            
         </form>
 
         <%-- <c:forEach var="item" items="${linkMap}" varStatus="status">
