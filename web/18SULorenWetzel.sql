@@ -17,16 +17,18 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `18SU_Loren_Wetzel`
+-- Database: `18SULorenWetzel`
 --
-
+Drop database if exists `18SULorenWetzel`;
+create database `18SULorenWetzel`;
+USE `18SULorenWetzel`;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `employees`
+-- Table structure for table `Persons`
 --
 
-CREATE TABLE `employees` (
+CREATE TABLE `Persons` (
   `EmployeeID` int(1) NOT NULL,
   `FirstName` varchar(50) NOT NULL,
   `MiddleName` varchar(20) DEFAULT NULL,
@@ -36,10 +38,10 @@ CREATE TABLE `employees` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `employees`
+-- Dumping data for table `Persons`
 --
 
-INSERT INTO `employees` (`EmployeeID`, `FirstName`, `MiddleName`, `LastName`, `BirthDate`, `HireDate`) VALUES
+INSERT INTO `Persons` (`EmployeeID`, `FirstName`, `MiddleName`, `LastName`, `BirthDate`, `HireDate`) VALUES
 (1, 'Loren', 'R', 'Wetzel', '1981-08-09', '2018-08-07');
 
 --
@@ -47,9 +49,9 @@ INSERT INTO `employees` (`EmployeeID`, `FirstName`, `MiddleName`, `LastName`, `B
 --
 
 --
--- Indexes for table `employees`
+-- Indexes for table `Persons`
 --
-ALTER TABLE `employees`
+ALTER TABLE `Persons`
   ADD PRIMARY KEY (`EmployeeID`);
 
 --
@@ -57,9 +59,9 @@ ALTER TABLE `employees`
 --
 
 --
--- AUTO_INCREMENT for table `employees`
+-- AUTO_INCREMENT for table `Persons`
 --
-ALTER TABLE `employees`
+ALTER TABLE `Persons`
   MODIFY `EmployeeID` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
