@@ -13,20 +13,22 @@ import java.time.LocalDate;
  * @author fssco
  */
 public class Person implements Serializable{
+    private int employeeID;
     private String firstName;
     private String middleName;
     private String lastName;
-    private int employeeID;
+    
     private LocalDate birthDate;
     private LocalDate hireDate;
 
     public Person () {};
     
-    public Person (String firstName, String middleName, String lastName, int employeeID, LocalDate birthDate, LocalDate hireDate) {
+    public Person (int employeeID, String firstName, String middleName, String lastName, LocalDate birthDate, LocalDate hireDate) {
+        this.employeeID=employeeID;
         this.firstName=firstName;
         this.middleName=middleName;
         this.lastName=lastName;
-        this.employeeID=employeeID;
+        
         this.birthDate=birthDate;
         this.hireDate=hireDate;
     }

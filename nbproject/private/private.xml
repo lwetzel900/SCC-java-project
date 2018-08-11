@@ -3,12 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/lwetz/Desktop/2514persondb-lwetzel900/src/java/business/Person.java</file>
-            <file>file:/C:/Users/lwetz/Desktop/2514persondb-lwetzel900/src/java/data/DBUtil.java</file>
-            <file>file:/C:/Users/lwetz/Desktop/2514persondb-lwetzel900/src/java/data/ConnectionPool.java</file>
-            <file>file:/C:/Users/lwetz/Desktop/2514persondb-lwetzel900/web/18SULorenWetzel.sql</file>
+            <file>file:/C:/Users/lwetz/Desktop/2514persondb-lwetzel900/web/WEB-INF/web.xml</file>
             <file>file:/C:/Users/lwetz/Desktop/2514persondb-lwetzel900/src/java/data/EmployeeManagerDA.java</file>
             <file>file:/C:/Users/lwetz/Desktop/2514persondb-lwetzel900/web/META-INF/context.xml</file>
+            <file>file:/C:/Users/lwetz/Desktop/2514persondb-lwetzel900/src/java/controller/Controller.java</file>
+            <file>file:/C:/Users/lwetz/Desktop/2514persondb-lwetzel900/nbproject/build-impl.xml</file>
+            <file>file:/C:/Users/lwetz/Desktop/2514persondb-lwetzel900/src/java/data/ConnectionPool.java</file>
         </group>
     </open-files>
 </project-private>

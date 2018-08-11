@@ -6,11 +6,10 @@
 package controller;
 
 import business.Person;
+import data.EmployeeManagerDA;
 import java.io.IOException;
 
 import java.time.LocalDate;
-import java.time.Month;
-
 import java.util.LinkedHashMap;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -37,7 +36,9 @@ public class Controller extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String url = "/display.jsp";
+        EmployeeManagerDA.insertPrevious();
+
+        String url = "/index.jsp";
         String message = "";
 
         LocalDate today = LocalDate.now();
@@ -49,7 +50,8 @@ public class Controller extends HttpServlet {
         if (action == null) {
             action = "first";
         }
-
+        String errorMessage = "";
+        String searchValue = "";
         LinkedHashMap<String, Person> linkMap = (LinkedHashMap) session.getAttribute("linkMap");
 
         if (linkMap == null) {
@@ -58,15 +60,62 @@ public class Controller extends HttpServlet {
 
         switch (action) {
             case "first":
-                url = "/display.jsp";
-
-                linkMap.put("731", new Person("Pris", "", "Stratton", 731,
-                        LocalDate.of(2016, Month.FEBRUARY, 14), LocalDate.of(2016, Month.FEBRUARY, 14)));
-                linkMap.put("734", new Person("Roy", "", "Batty", 734,
-                        LocalDate.of(2016, Month.JANUARY, 8), LocalDate.of(2016, Month.JANUARY, 9)));
-
+                url = "/index.jsp";
+//                ArrayList<Person> allEmps = new ArrayList<>();
+//                for (Person p : EmployeeManagerDA.selectAll()) {
+//                    linkMap.put(String.valueOf(p.getEmployeeID()), p);
+//                }
+//                linkMap.put("731", new Person("Pris", "", "Stratton", 731,
+//                        LocalDate.of(2016, Month.FEBRUARY, 14), LocalDate.of(2016, Month.FEBRUARY, 14)));
+//                linkMap.put("734", new Person("Roy", "", "Batty", 734,
+//                        LocalDate.of(2016, Month.JANUARY, 8), LocalDate.of(2016, Month.JANUARY, 9)));
                 session.setAttribute("linkMap", linkMap);
                 break;
+
+            case "show":
+                url = "/display.jsp";
+                for (Person p : EmployeeManagerDA.getAllEmployees()) {
+                    linkMap.put(String.valueOf(p.getEmployeeID()), p);
+                }
+                break;
+
+            case "search":
+                url = "/search.jsp";
+                break;
+
+            case "searchResults":
+                url = "/search.jsp";
+                searchValue = request.getParameter("searchValue");
+                String tempDate = request.getParameter("searchDate");
+                LocalDate hireDate = null;
+
+                if (searchValue == null || searchValue.isEmpty()) {
+                    errorMessage = "Please choose a search parameter... "
+                            + "Before or After the date picked";
+                    url = "/search.jsp";
+                } else {
+
+                    try {
+                        hireDate = LocalDate.parse(tempDate);
+                    } catch (Exception e) {
+                        errorMessage += "Must have a valid date to search.";
+                        url = "/search.jsp";
+                    }
+
+//                    ArrayList<Person> searchResult = EmployeeManagerDA.search(hireDate, searchValue);
+                    
+                    for (Person p : EmployeeManagerDA.searchEmployees(hireDate, searchValue)) {
+                        linkMap.put(String.valueOf(p.getEmployeeID()), p);
+                        
+                    }
+
+                    if (linkMap.isEmpty()) {
+                        message = "No one was hired " + searchValue + " " + hireDate + ". Please select another date.";
+                    }
+
+                }
+                break;
+
             case "add":
                 url = "/display.jsp";
 
@@ -78,7 +127,7 @@ public class Controller extends HttpServlet {
                 String tempBDay = request.getParameter("bDay");
                 LocalDate bDay = null;
                 String tempHireDate = request.getParameter("hireDate");
-                LocalDate hireDate = null;
+                hireDate = null;
 
                 try {
                     empID = Integer.parseInt(tempEmpID);
@@ -110,7 +159,8 @@ public class Controller extends HttpServlet {
                         message += "That ID already exists. Pick Something else";
                         url = "/display.jsp";
                     } else {
-                        Person person = new Person(fName, mName, lName, empID, bDay, hireDate);
+                        Person person = new Person(empID, fName, mName, lName, bDay, hireDate);
+                        EmployeeManagerDA.insertEmployee(person);
                         linkMap.put(String.valueOf(empID), person);
                     }
                 }
@@ -128,7 +178,7 @@ public class Controller extends HttpServlet {
                 break;
             case "home":
                 session.invalidate();
-                url = "/display.jsp";
+                url = "/index.jsp";
                 break;
             default:
                 break;
