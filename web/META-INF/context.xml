@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context path="/practice3LorenWetzel">
+<Context path="/2514persondb-lwetzel900">
 <!-- maxActive: Maximum number of dB connections in pool. Make sure you
          configure your mysqld max_connections large enough to handle
          all of your db connections. Set to 0 for no limit.

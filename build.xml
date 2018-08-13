@@ -7,8 +7,8 @@
 <!-- the Compile on Save feature is turned off for the project. -->
 <!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
 <!-- in the project's Project Properties dialog box.-->
-<project name="practice3LorenWetzel" default="default" basedir=".">
-    <description>Builds, tests, and runs the project practice3LorenWetzel.</description>
+<project name="2514persondb-lwetzel900" default="default" basedir=".">
+    <description>Builds, tests, and runs the project 2514persondb-lwetzel900.</description>
     <import file="nbproject/build-impl.xml"/>
     <!--
 
