@@ -15,7 +15,7 @@
     </head>
     
         <h2>Search for employees hired before or after date picked.</h2><br>
-        <h3 class="error">${errorMessage}</h3>
+        <h3 class="error">${errorMessage}</h3><br>
         <form action="Controller" method="post">
             <input type="hidden" name="action" value="searchResults">
 

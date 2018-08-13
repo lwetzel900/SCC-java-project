@@ -50,6 +50,7 @@ public class Controller extends HttpServlet {
         if (action == null) {
             action = "first";
         }
+        
         String errorMessage = "";
         String searchValue = "";
         LinkedHashMap<String, Person> linkMap = (LinkedHashMap) session.getAttribute("linkMap");
@@ -112,8 +113,13 @@ public class Controller extends HttpServlet {
                     if (linkMap.isEmpty()) {
                         message = "No one was hired " + searchValue + " " + hireDate + ". Please select another date.";
                     }
-
                 }
+                request.setAttribute("searchValue", searchValue);
+                request.setAttribute("hireDate", hireDate);
+                session.setAttribute("linkMap", linkMap);
+                request.setAttribute("message", message);
+                request.setAttribute("errorMessage", errorMessage);
+                
                 break;
 
             case "add":
