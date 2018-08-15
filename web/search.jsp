@@ -39,7 +39,7 @@
 
          <c:if test="${message != null}">
              <h2>${message}</h2>
-             <c:if test="${!linkMap.isEmpty()}">
+             <c:if test="${!searchMap.isEmpty()}">
                      <table style="overflow-x:auto;">
                          <tr>
                              <th>First Name</th>
@@ -50,7 +50,7 @@
                              <th>Hire Date</th>
                          </tr>
 
-                        <c:forEach var="item" items="${empMap}">
+                        <c:forEach var="item" items="${searchMap}">
                             <tr>
                                 <td>${item.value.firstName}</td>
                                 <td>${item.value.middleName}</td>

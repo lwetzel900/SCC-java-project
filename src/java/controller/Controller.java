@@ -50,9 +50,10 @@ public class Controller extends HttpServlet {
         if (action == null) {
             action = "first";
         }
-        
+
         String errorMessage = "";
         String searchValue = "";
+
         LinkedHashMap<String, Person> linkMap = (LinkedHashMap) session.getAttribute("linkMap");
 
         if (linkMap == null) {
@@ -85,41 +86,41 @@ public class Controller extends HttpServlet {
                 break;
 
             case "searchResults":
+               
                 url = "/search.jsp";
+LinkedHashMap<String, Person> searchMap = new LinkedHashMap();
                 searchValue = request.getParameter("searchValue");
                 String tempDate = request.getParameter("searchDate");
                 LocalDate hireDate = null;
 
+                try {
+                    hireDate = LocalDate.parse(tempDate);
+                } catch (Exception e) {
+                    errorMessage = "Must have a valid date to search.";
+                    url = "/search.jsp";
+                }
                 if (searchValue == null || searchValue.isEmpty()) {
                     errorMessage = "Please choose a search parameter... "
                             + "Before or After the date picked";
                     url = "/search.jsp";
                 } else {
-
-                    try {
-                        hireDate = LocalDate.parse(tempDate);
-                    } catch (Exception e) {
-                        errorMessage += "Must have a valid date to search.";
-                        url = "/search.jsp";
-                    }
-
 //                    ArrayList<Person> searchResult = EmployeeManagerDA.search(hireDate, searchValue);
-                    
+
                     for (Person p : EmployeeManagerDA.searchEmployees(hireDate, searchValue)) {
-                        linkMap.put(String.valueOf(p.getEmployeeID()), p);
-                        
+                        searchMap.put(String.valueOf(p.getEmployeeID()), p);
                     }
 
-                    if (linkMap.isEmpty()) {
+                    if (searchMap.isEmpty()) {
                         message = "No one was hired " + searchValue + " " + hireDate + ". Please select another date.";
                     }
                 }
+                request.setAttribute("searchMap", searchMap);
+
                 request.setAttribute("searchValue", searchValue);
                 request.setAttribute("hireDate", hireDate);
-                session.setAttribute("linkMap", linkMap);
                 request.setAttribute("message", message);
                 request.setAttribute("errorMessage", errorMessage);
-                
+
                 break;
 
             case "add":
