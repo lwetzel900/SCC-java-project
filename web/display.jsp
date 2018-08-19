@@ -11,6 +11,8 @@
         <p>Just item.lastName causes an error because item is a LinkedHashMap$Entry not a Person.
             A LinkedHashMap$Entry has a key and a value, the stored Person is in the .value</p>
         <br>
+        <a href="Controller">Home</a>
+        <br>
         <h2 class="error">${message}</h2>
 
         <table style="overflow-x:auto;">
@@ -22,57 +24,35 @@
 
                 <th>Birth Date</th>
                 <th>Hire Date</th>
-                <th></th>
+                <!--<th></th>-->
             </tr>
 
             <c:forEach var="item" items="${linkMap}" varStatus="status">
                 <tr>
-                    <td>${item.value.employeeID}</td>
+                    <td>${item.key}</td>
                     <td>${item.value.firstName}</td>
                     <td>${item.value.middleName}</td>
                     <td>${item.value.lastName}</td>
 
                     <td>${item.value.birthDate}</td>
                     <td>${item.value.hireDate}</td>
-                    <td><form action="Controller" method="post">
+                   <%-- <td><form action="Controller" method="post">
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name="empID" value="${item.value.employeeID}">
                             <input type="submit" value="Delete">
-                        </form></td>
+                        </form></td>--%>
                 </tr>
             </c:forEach>
         </table>
         <br>
-        <form action="Controller" method="post">
+        
+<!--        <form action="Controller" method="post">
             <input type="hidden" name="action" value="home">
             <input type="submit" value="Home">
         </form>
         <br>
-        <form action="Controller" method="post">
-            <input type="hidden" name="action" value="add">
-
-            <label>Employee ID  </label>
-            <input class="searchInput" type="text" name="empID" value="${empID}"><br>
-
-            <label>First Name </label>
-            <input class="searchInput" type="text" name="fName" value="${fName}"><br>
-
-            <label>Middle Name </label>
-            <input class="searchInput" type="text" name="mName" value="${mName}"><br>
-
-            <label>Last Name  </label>
-            <input class="searchInput" type="text" name="lName" value="${lName}"><br>
-
-            <label>Birth Date</label>
-            <input class="searchInput" type="date" name="bDay" max="${today}"value="${bDay}"><br>
-
-            <label>Hire Date </label>
-            <input class="searchInput" type="date" name="hireDate" value="${hireDate}" max="${today}"><br>
-
-            <label>&nbsp;</label>
-            <input class="searchInput"  type="submit" value="Add">
-            
-        </form>
+        
+        -->
 
         <%-- <c:forEach var="item" items="${linkMap}" varStatus="status">
              ${status.index}

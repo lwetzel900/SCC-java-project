@@ -23,6 +23,10 @@
             While you are here check out our <input type="submit" value="employees">.
         </form><br>
         <form action="Controller" method="post">
+            <input type="hidden" name="action" value="addEmp">
+            Or you can <input type="submit" value="add"> an employee to the list.
+        </form><br>
+        <form action="Controller" method="post">
             <input type="hidden" name="action" value="search">
             Or you can <input type="submit" value="snoop"> through our employees.
         </form>

@@ -35,27 +35,31 @@
 
             <label>&nbsp;</label>
             <input class="searchInput" type="submit" value ="Search">
-        </form><br>
+        </form>
+        <br>
+        <a href="Controller">Home</a>
+        <br>
 
          <c:if test="${message != null}">
              <h2>${message}</h2>
-             <c:if test="${!searchMap.isEmpty()}">
+             
+             <c:if test="${!linkMap.isEmpty()}">
                      <table style="overflow-x:auto;">
                          <tr>
+                             <th>Employee ID</th>
                              <th>First Name</th>
                              <th>Middle Name</th> 
                              <th>Last Name</th>
-                             <th>Employee ID</th>
                              <th>Birth Date</th>
                              <th>Hire Date</th>
                          </tr>
 
-                        <c:forEach var="item" items="${searchMap}">
+                        <c:forEach var="item" items="${linkMap}">
                             <tr>
+                                <td>${item.value.employeeID}</td>
                                 <td>${item.value.firstName}</td>
                                 <td>${item.value.middleName}</td>
                                 <td>${item.value.lastName}</td>
-                                <td>${item.value.employeeID}</td>
                                 <td>${item.value.birthDate}</td>
                                 <td>${item.value.hireDate}</td>
                             </tr>
@@ -64,7 +68,6 @@
             </c:if>
         </c:if> 
 
-        <br>
-        <a href="Controller">Home</a>
+        
     
 </html>
