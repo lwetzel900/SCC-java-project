@@ -36,7 +36,8 @@ public class Controller extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        EmployeeManagerDA.insertPrevious();
+        //this is inserts old employees into the database
+        //EmployeeManagerDA.insertPrevious();
 
         String url = "/index.jsp";
         String message = "";
@@ -128,13 +129,7 @@ public class Controller extends HttpServlet {
                 } else {
                     empID = 0;
                 }
-                if (fName == null || fName.isEmpty()) {
-                    message += "Need a first name <br>";
-                    url = "/add.jsp";
-                } else if (lName == null || lName.isEmpty()) {
-                    message += "Need a last name <br>";
-                    url = "/add.jsp";
-                }
+                
                 try {
                     hireDate = LocalDate.parse(tempHireDate);
                 } catch (Exception e) {
@@ -147,6 +142,13 @@ public class Controller extends HttpServlet {
                     message += "Birthday needs to be a present and a date <br>";
                     url = "/add.jsp";
                 }
+                if (fName == null || fName.isEmpty()) {
+                    message += "Need a first name <br>";
+                    url = "/add.jsp";
+                } else if (lName == null || lName.isEmpty()) {
+                    message += "Need a last name <br>";
+                    url = "/add.jsp";
+                }else{
                 for (Person p : EmployeeManagerDA.getAllEmployees()) {
                     linkMap.put(String.valueOf(p.getEmployeeID()), p);
                 }
@@ -161,6 +163,7 @@ public class Controller extends HttpServlet {
                         url = "/display.jsp";
                     }
                 }
+                }
 
                 request.setAttribute("message", message);
 
@@ -173,15 +176,16 @@ public class Controller extends HttpServlet {
                 request.setAttribute("bDay", bDay);
                 request.setAttribute("hireDate", hireDate);
                 break;
-//            case "delete":
-////                request.getAttribute("empID");
-//                EmployeeManagerDA.deleteUser("empID");
-//                for (Person p : EmployeeManagerDA.getAllEmployees()) {
-//                    linkMap.put(String.valueOf(p.getEmployeeID()), p);
-//                }
-//                request.setAttribute("linkMap", linkMap);
-//                url = "/display.jsp";
-//                break;
+            case "delete":
+                url = "/display.jsp";
+                String id = request.getParameter("empID");
+                EmployeeManagerDA.deleteUser(Integer.parseInt(id));
+                for (Person p : EmployeeManagerDA.getAllEmployees()) {
+                    linkMap.put(String.valueOf(p.getEmployeeID()), p);
+                }
+                request.setAttribute("linkMap", linkMap);
+                
+                break;
             case "home":
 //                session.invalidate();
                 url = "/index.jsp";

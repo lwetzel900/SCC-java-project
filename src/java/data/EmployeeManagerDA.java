@@ -194,24 +194,24 @@ public class EmployeeManagerDA {
         }
     }
 
-//    public static int deleteUser(String empID) {
-//        ConnectionPool pool = ConnectionPool.getInstance();
-//        Connection connection = pool.getConnection();
-//        PreparedStatement ps = null;
-//        String query = "DELETE FROM Persons "
-//                + "WHERE EmployeeID = ?";
-//        try {
-//            ps = connection.prepareStatement(query);
-//            ps.setString(1, empID);
-//            return ps.executeUpdate();
-//        } catch (SQLException e) {
-//            System.out.println(e);
-//            return 0;
-//        } finally {
-//            DBUtil.closePreparedStatement(ps);
-//            pool.freeConnection(connection);
-//        }
-//    }
+    public static int deleteUser(int empID) {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        String query = "DELETE FROM Persons "
+                + "WHERE EmployeeID = ?";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, empID);
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+            return 0;
+        } finally {
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+    }
 
 //    public static ArrayList<Person> search(LocalDate searchDate, String searchValue) {
 //

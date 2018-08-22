@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Practice 2</title>
+        <title>Display All Employees</title>
         <link href="styles/main.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
@@ -24,7 +24,7 @@
 
                 <th>Birth Date</th>
                 <th>Hire Date</th>
-                <!--<th></th>-->
+                <th></th>
             </tr>
 
             <c:forEach var="item" items="${linkMap}" varStatus="status">
@@ -36,11 +36,11 @@
 
                     <td>${item.value.birthDate}</td>
                     <td>${item.value.hireDate}</td>
-                   <%-- <td><form action="Controller" method="post">
+                   <td><form action="Controller" method="post">
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name="empID" value="${item.value.employeeID}">
                             <input type="submit" value="Delete">
-                        </form></td>--%>
+                        </form></td>
                 </tr>
             </c:forEach>
         </table>
