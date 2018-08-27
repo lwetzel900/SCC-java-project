@@ -37,7 +37,10 @@ public class Controller extends HttpServlet {
             throws ServletException, IOException {
 
         //this is inserts old employees into the database
-        EmployeeManagerDA.insertPrevious();
+        //EmployeeManagerDA.insertPrevious();
+        /*
+        If I leave this uncommented when you delete someone from the database it will automatically put them back in.
+        */
 
         String url = "/index.jsp";
         String message = "";
