@@ -15,7 +15,7 @@
     </head>
     <body>
         <h1>Add an Employee</h1>
-        
+
         <a href="Controller">Home</a>
         <br>
         <h2 class="error">${message}</h2>
@@ -43,7 +43,7 @@
 
             <label>&nbsp;</label>
             <input class="searchInput"  type="submit" value="Add">
-            
+
         </form>
     </body>
 </html>

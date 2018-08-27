@@ -1,7 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ *   Document   : controller
+ *   Created on : Aug 15, 2018, 10:03:21 PM
+ *   Author     : lwetz
  */
 package controller;
 
@@ -37,7 +37,7 @@ public class Controller extends HttpServlet {
             throws ServletException, IOException {
 
         //this is inserts old employees into the database
-        //EmployeeManagerDA.insertPrevious();
+        EmployeeManagerDA.insertPrevious();
 
         String url = "/index.jsp";
         String message = "";
@@ -102,9 +102,11 @@ public class Controller extends HttpServlet {
                 request.setAttribute("message", message);
                 request.setAttribute("errorMessage", errorMessage);
                 break;
+                
             case "addEmp":
                 url = "/add.jsp";
                 break;
+                
             case "add":
                 url = "/add.jsp";
 
@@ -129,7 +131,7 @@ public class Controller extends HttpServlet {
                 } else {
                     empID = 0;
                 }
-                
+
                 try {
                     hireDate = LocalDate.parse(tempHireDate);
                 } catch (Exception e) {
@@ -148,27 +150,25 @@ public class Controller extends HttpServlet {
                 } else if (lName == null || lName.isEmpty()) {
                     message += "Need a last name <br>";
                     url = "/add.jsp";
-                }else{
-                for (Person p : EmployeeManagerDA.getAllEmployees()) {
-                    linkMap.put(String.valueOf(p.getEmployeeID()), p);
-                }
-
-                if (linkMap.containsKey(String.valueOf(empID))) {
-                    message += "That ID already exists. Pick Something else";
-                    url = "/add.jsp";
                 } else {
-                    person = new Person(empID, fName, mName, lName, bDay, hireDate);
-                    if ((empID = EmployeeManagerDA.insertEmployee(person)) != 0) {
-                        linkMap.put(String.valueOf(empID), person);
-                        url = "/display.jsp";
+                    for (Person p : EmployeeManagerDA.getAllEmployees()) {
+                        linkMap.put(String.valueOf(p.getEmployeeID()), p);
+                    }
+
+                    if (linkMap.containsKey(String.valueOf(empID))) {
+                        message += "That ID already exists. Pick Something else";
+                        url = "/add.jsp";
+                    } else {
+                        person = new Person(empID, fName, mName, lName, bDay, hireDate);
+                        if ((empID = EmployeeManagerDA.insertEmployee(person)) != 0) {
+                            linkMap.put(String.valueOf(empID), person);
+                            url = "/display.jsp";
+                        }
                     }
                 }
-                }
-
                 request.setAttribute("message", message);
 
                 request.setAttribute("linkMap", linkMap);
-
                 request.setAttribute("empID", empID);
                 request.setAttribute("fName", fName);
                 request.setAttribute("mName", mName);
@@ -176,6 +176,7 @@ public class Controller extends HttpServlet {
                 request.setAttribute("bDay", bDay);
                 request.setAttribute("hireDate", hireDate);
                 break;
+                
             case "delete":
                 url = "/display.jsp";
                 String id = request.getParameter("empID");
@@ -184,12 +185,13 @@ public class Controller extends HttpServlet {
                     linkMap.put(String.valueOf(p.getEmployeeID()), p);
                 }
                 request.setAttribute("linkMap", linkMap);
-                
+
                 break;
+                
             case "home":
-//                session.invalidate();
                 url = "/index.jsp";
                 break;
+                
             default:
                 break;
         }

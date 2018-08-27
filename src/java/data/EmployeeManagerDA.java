@@ -1,7 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ *   Document   : EmployeeManagerDA
+ *   Created on : Aug 15, 2018, 10:03:21 PM
+ *   Author     : lwetz
  */
 package data;
 
@@ -43,7 +43,6 @@ public class EmployeeManagerDA {
                 person.setFirstName(rs.getString("FirstName"));
                 if (rs.getString("MiddleName") == null) {
                     person.setMiddleName("");
-
                 } else {
                     person.setMiddleName(rs.getString("MiddleName"));
                 }
@@ -83,7 +82,6 @@ public class EmployeeManagerDA {
                 person.setFirstName(rs.getString("FirstName"));
                 if (rs.getString("MiddleName") == null) {
                     person.setMiddleName("");
-
                 } else {
                     person.setMiddleName(rs.getString("MiddleName"));
                 }
@@ -213,36 +211,6 @@ public class EmployeeManagerDA {
         }
     }
 
-//    public static ArrayList<Person> search(LocalDate searchDate, String searchValue) {
-//
-//        ArrayList<Person> temp = new ArrayList<>(); //temp list to add found employees to
-//        ArrayList<Person> all = getAllEmployees(); //gets all of the employees from the other method
-//
-//        if (searchValue.equals("before")) {
-//
-//            all.sort((o1, o2) -> o1.getHireDate().compareTo(o2.getHireDate()));
-//
-//            for (Person p : all) {
-//
-//                if (p.getHireDate().isBefore(searchDate)) {
-//                    //adds the employee from all at index 0 to the temp list
-//                    temp.add(p);
-//                }
-//            }
-//        } else if (searchValue.equals("after")) {
-//
-//            all.sort((o1, o2) -> o2.getHireDate().compareTo(o1.getHireDate()));
-//
-//            for (Person p : all) {
-//
-//                if (p.getHireDate().isAfter(searchDate)) {
-//                    //adds the employee from all at index 0 to the temp list
-//                    temp.add(p);
-//                }
-//            }
-//        }
-//        return temp;
-//    }
     public static ArrayList<Person> getOldEmps() {
         ArrayList<Person> all = new ArrayList<>();
         all.add(new Person(65, "Aaron", "A", "Aaronson",
