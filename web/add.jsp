@@ -18,27 +18,40 @@
 
         <a href="Controller">Home</a>
         <br>
-        <h2 class="error">${message}</h2>
+        <c:if test="${message != null}">
+            <h2 class="error">${message}</h2>
+        </c:if>
         <br>
         <form action="Controller" method="post">
             <input type="hidden" name="action" value="add">
 
-            <label>Employee ID  </label>
+            <label>Employee ID</label>
             <input class="searchInput" type="text" name="empID" value="${empID}"><br>
 
-            <label>First Name </label>
+            <label>First Name</label>
             <input class="searchInput" type="text" name="fName" value="${fName}"><br>
 
-            <label>Middle Name </label>
+            <label>Middle Name</label>
             <input class="searchInput" type="text" name="mName" value="${mName}"><br>
 
-            <label>Last Name  </label>
+            <label>Last Name</label>
             <input class="searchInput" type="text" name="lName" value="${lName}"><br>
+
+            <label>Employee Type</label>
+            <input class="radio" type="radio" name="empType" value="Salary">Salary<br>
+
+            <label>&nbsp;</label>
+            <input class="searchInput" type="radio" name="empType" value="Hourly">Hourly<br>
+
+            <label>&nbsp;</label>
+            <input class="searchInput" type="radio" name="empType" value="None">None<br>
+
+            
 
             <label>Birth Date</label>
             <input class="searchInput" type="date" name="bDay" max="${today}"value="${bDay}"><br>
 
-            <label>Hire Date </label>
+            <label>Hire Date</label>
             <input class="searchInput" type="date" name="hireDate" value="${hireDate}" max="${today}"><br>
 
             <label>&nbsp;</label>

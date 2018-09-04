@@ -40,8 +40,7 @@ public class Controller extends HttpServlet {
         //EmployeeManagerDA.insertPrevious();
         /*
         If I leave this uncommented when you delete someone from the database it will automatically put them back in.
-        */
-
+         */
         String url = "/index.jsp";
         String message = "";
         String errorMessage = "";
@@ -82,20 +81,20 @@ public class Controller extends HttpServlet {
                 try {
                     hireDate = LocalDate.parse(tempDate);
                 } catch (Exception e) {
-                    errorMessage = "Must have a valid date to search.";
+                    errorMessage = "Must have a valid date to search.<br>";
                     url = "/search.jsp";
                 }
                 if (searchValue == null || searchValue.isEmpty()) {
-                    errorMessage = "Please choose a search parameter... "
-                            + "Before or After the date picked";
+                    errorMessage += "Pick Before or After";
                     url = "/search.jsp";
                 } else {
-                    for (Person p : EmployeeManagerDA.searchEmployees(hireDate, searchValue)) {
-                        linkMap.put(String.valueOf(p.getEmployeeID()), p);
-                    }
-
-                    if (linkMap.isEmpty()) {
-                        message = "No one was hired " + searchValue + " " + hireDate + ". Please select another date.";
+                    if (hireDate != null) {
+                        for (Person p : EmployeeManagerDA.searchEmployees(hireDate, searchValue)) {
+                            linkMap.put(String.valueOf(p.getEmployeeID()), p);
+                        }
+                        if (linkMap.isEmpty()) {
+                            message = "No one was hired " + searchValue + " " + hireDate + ". Please select another date.";
+                        }
                     }
                 }
                 request.setAttribute("linkMap", linkMap);
@@ -105,17 +104,18 @@ public class Controller extends HttpServlet {
                 request.setAttribute("message", message);
                 request.setAttribute("errorMessage", errorMessage);
                 break;
-                
+
             case "addEmp":
                 url = "/add.jsp";
                 break;
-                
+
             case "add":
                 url = "/add.jsp";
 
                 String fName = request.getParameter("fName");
                 String mName = request.getParameter("mName");
                 String lName = request.getParameter("lName");
+                String type = request.getParameter("type");
                 String tempEmpID = request.getParameter("empID");
                 Integer empID = null;
                 String tempBDay = request.getParameter("bDay");
@@ -141,6 +141,7 @@ public class Controller extends HttpServlet {
                     message += "Hire Date needs to be a present and a date <br>";
                     url = "/add.jsp";
                 }
+
                 try {
                     bDay = LocalDate.parse(tempBDay);
                 } catch (Exception e) {
@@ -153,33 +154,36 @@ public class Controller extends HttpServlet {
                 } else if (lName == null || lName.isEmpty()) {
                     message += "Need a last name <br>";
                     url = "/add.jsp";
+                } else if (EmployeeManagerDA.selectSingleEmployee(empID)) {
+                    message += "That ID already exists. Pick Something else";
+                    url = "/add.jsp";
                 } else {
-                    for (Person p : EmployeeManagerDA.getAllEmployees()) {
-                        linkMap.put(String.valueOf(p.getEmployeeID()), p);
-                    }
-
-                    if (linkMap.containsKey(String.valueOf(empID))) {
-                        message += "That ID already exists. Pick Something else";
-                        url = "/add.jsp";
-                    } else {
-                        person = new Person(empID, fName, mName, lName, bDay, hireDate);
-                        if ((empID = EmployeeManagerDA.insertEmployee(person)) != 0) {
-                            linkMap.put(String.valueOf(empID), person);
-                            url = "/display.jsp";
+                    if (!tempHireDate.isEmpty() && !tempBDay.isEmpty()) {
+                        for (Person p : EmployeeManagerDA.getAllEmployees()) {
+                            linkMap.put(String.valueOf(p.getEmployeeID()), p);
+                            
+                            person = new Person(empID, fName, mName, lName, bDay, hireDate, type);
+                            if ((empID = EmployeeManagerDA.insertEmployee(person)) != 0) {
+                                linkMap.put(String.valueOf(empID), person);
+                                url = "/display.jsp";
+                            }
                         }
                     }
                 }
                 request.setAttribute("message", message);
 
                 request.setAttribute("linkMap", linkMap);
-                request.setAttribute("empID", empID);
+                if (empID != 0) {
+                    request.setAttribute("empID", empID);
+                }
                 request.setAttribute("fName", fName);
                 request.setAttribute("mName", mName);
                 request.setAttribute("lName", lName);
+                request.setAttribute("type", type);
                 request.setAttribute("bDay", bDay);
                 request.setAttribute("hireDate", hireDate);
                 break;
-                
+
             case "delete":
                 url = "/display.jsp";
                 String id = request.getParameter("empID");
@@ -190,11 +194,11 @@ public class Controller extends HttpServlet {
                 request.setAttribute("linkMap", linkMap);
 
                 break;
-                
+
             case "home":
                 url = "/index.jsp";
                 break;
-                
+
             default:
                 break;
         }

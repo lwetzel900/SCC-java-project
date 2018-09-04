@@ -5,29 +5,35 @@
  */
 package business;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 
 /**
  *
  * @author fssco
  */
-public class EmpHourly extends Person{
+public class EmpHourly extends Person {
+
     private double rate;
     private double avgWeeklyHours;
-    
-    public EmpHourly() {}
-    
-    public EmpHourly(String firstName, String middleName, String lastName, int employeeID, LocalDate birthDate, LocalDate hireDate, double rate, double avgWeeklyHours) {
-        super(employeeID, firstName, middleName, lastName, birthDate, hireDate);
-        this.rate = rate;
-        this.avgWeeklyHours= avgWeeklyHours;
+
+    public EmpHourly() {
     }
-    
+
+    public EmpHourly(String firstName, String middleName, String lastName, int employeeID, LocalDate birthDate, LocalDate hireDate, String type, double rate, double avgWeeklyHours) {
+        super(employeeID, firstName, middleName, lastName, birthDate, hireDate, type);
+        this.rate = rate;
+        this.avgWeeklyHours = avgWeeklyHours;
+    }
+
     //EDIT THIS
     @Override
-        public double calcYearlyCompensation() {
-        return 0.0; 
-}
+    public String calcYearlyCompensation() {
+        double pay = (rate * avgWeeklyHours) * 51;
+        NumberFormat nf = NumberFormat.getCurrencyInstance();
+        return nf.format(pay);
+    }
 
     /**
      * @return the rate
@@ -56,5 +62,5 @@ public class EmpHourly extends Person{
     public void setAvgWeeklyHours(double avgWeeklyHours) {
         this.avgWeeklyHours = avgWeeklyHours;
     }
-    
+
 }

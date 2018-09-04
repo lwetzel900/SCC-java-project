@@ -12,29 +12,32 @@ import java.time.LocalDate;
  * @author fssco
  */
 public class Person {
+
     private String firstName;
     private String middleName;
     private String lastName;
     private int employeeID;
     private LocalDate birthDate;
     private LocalDate hireDate;
-    
-    public Person () {}
+    private String type;
 
-    public Person (int employeeID, String firstName, String middleName, String lastName, LocalDate birthDate, LocalDate hireDate) {
-        this.firstName=firstName;
-        this.middleName=middleName;
-        this.lastName=lastName;
-        this.employeeID=employeeID;
-        this.birthDate=birthDate;
-        this.hireDate=hireDate;
+    public Person() {
     }
-    
-    public double calcYearlyCompensation() {
-        return 0.0; 
-}
-    
-    
+
+    public Person(int employeeID, String firstName, String middleName, String lastName, LocalDate birthDate, LocalDate hireDate, String type) {
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+        this.employeeID = employeeID;
+        this.birthDate = birthDate;
+        this.hireDate = hireDate;
+        this.type = type;
+    }
+
+    public String calcYearlyCompensation() {
+        return "None";
+    }
+
     /**
      * @return the firstName
      */
@@ -118,7 +121,15 @@ public class Person {
     public void setHireDate(LocalDate hireDate) {
         this.hireDate = hireDate;
     }
-    
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
 }
 
 ///*

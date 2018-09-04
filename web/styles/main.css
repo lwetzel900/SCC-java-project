@@ -45,6 +45,11 @@ label {
     margin-left: 0.5em;    
     margin-bottom: 0.5em;
 }
+.radio{
+    margin-left: 0.5em;
+    margin-top: 0.5em;
+}
+
 br {
     clear: both;
 }
@@ -56,5 +61,26 @@ br {
 }
 
 form {
-  margin:auto;
+    margin:auto;
+}
+
+.align{
+    text-align: center;
+}
+.noMargin{
+    margin: 0;
+    /*padding: 0;*/
+}
+.clearButton{
+    /*taken from https://stackoverflow.com/questions/1367409/how-to-make-button-look-like-a-link*/
+    background:none!important;
+    color:blue;
+    border:none; 
+    padding:0!important;
+    font: inherit;
+    cursor: pointer;
+    text-decoration: underline;
+}
+h3 {
+    text-decoration: none;
 }

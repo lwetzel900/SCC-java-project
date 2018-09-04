@@ -23,26 +23,25 @@
         <table style="overflow-x:auto;">
             <tr>
                 <th>Employee ID</th>
-                <th>First Name</th>
-                <th>Middle Name</th> 
-                <th>Last Name</th>
-                <th>Birth Date</th>
+                <th>Name</th>
                 <th>Hire Date</th>
+                <th>Employee Type</th> 
+                <th>Yearly Cost</th>
                 <th></th>
             </tr>
 
             <c:forEach var="item" items="${linkMap}" varStatus="status">
                 <tr>
                     <td>${item.key}</td>
-                    <td>${item.value.firstName}</td>
-                    <td>${item.value.middleName}</td>
-                    <td>${item.value.lastName}</td>
-                    <td>${item.value.birthDate}</td>
+                    <td>${item.value.firstName} ${item.value.lastName}</td>
                     <td>${item.value.hireDate}</td>
-                    <td><form action="Controller" method="post">
+                    <td>${item.value.type}</td>
+                    <td>${item.value.calcYearlyCompensation()}</td>
+                    
+                    <td class="align"><form action="Controller" method="post">
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name="empID" value="${item.value.employeeID}">
-                            <input type="submit" value="Delete">
+                            <input class="noMargin" type="submit" value="Delete">
                         </form></td>
                 </tr>
             </c:forEach>

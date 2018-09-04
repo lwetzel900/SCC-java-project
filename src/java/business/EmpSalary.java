@@ -5,27 +5,33 @@
  */
 package business;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 
 /**
  *
  * @author fssco
  */
-public class EmpSalary extends Person{
+public class EmpSalary extends Person {
+
     private double salary;
-    
-    public EmpSalary () {}
-    
-    public EmpSalary(String firstName, String middleName, String lastName, int employeeID, LocalDate birthDate, LocalDate hireDate, double salary) {
-        super(employeeID, firstName, middleName, lastName, birthDate, hireDate);
+
+    public EmpSalary() {
+    }
+
+    public EmpSalary(String firstName, String middleName, String lastName, int employeeID, LocalDate birthDate, LocalDate hireDate, String type, double salary) {
+        super(employeeID, firstName, middleName, lastName, birthDate, hireDate, type);
         this.salary = salary;
     }
 
     //EDIT THIS
     @Override
-        public double calcYearlyCompensation() {
-        return 0.0; 
-}
+    public String calcYearlyCompensation() {
+        NumberFormat nf = NumberFormat.getCurrencyInstance();
+        return nf.format(salary);
+    }
+
     /**
      * @return the salary
      */
@@ -39,5 +45,5 @@ public class EmpSalary extends Person{
     public void setSalary(double salary) {
         this.salary = salary;
     }
-    
+
 }
