@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 04, 2018 at 09:46 AM
+-- Generation Time: Sep 08, 2018 at 10:56 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -21,9 +21,11 @@ SET time_zone = "+00:00";
 --
 -- Database: `18sulorenwetzel`
 --
+--
 drop database if exists `18sulorenwetzel`;
 create database `18sulorenwetzel`;
-use `18sulorenwetzel`
+use `18sulorenwetzel`;
+-- ---------------------
 -- --------------------------------------------------------
 
 --
@@ -79,7 +81,7 @@ ALTER TABLE `persons`
 -- AUTO_INCREMENT for table `persons`
 --
 ALTER TABLE `persons`
-  MODIFY `EmployeeID` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2008;
+  MODIFY `EmployeeID` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2002;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
