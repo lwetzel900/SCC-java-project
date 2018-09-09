@@ -196,36 +196,36 @@ public class Controller extends HttpServlet {
                     url = "/add.jsp";
                 } else {
                     if (!tempHireDate.isEmpty() && !tempBDay.isEmpty() && type != null) {
-                        for (Person p : EmployeeManagerDA.getAllEmployees()) {
-                            linkMap.put(String.valueOf(p.getEmployeeID()), p);
-                        }
-//************************************************Something may be off here***********************************************
 
+//************************************************Something may be off here***********************************************
                         if (type.equals("Hourly")) {
                             if (!tempHours.isEmpty() || !tempRate.isEmpty()) {
                                 hourly = new EmpHourly(fName, mName, lName, empID,
                                         bDay, hireDate, type, rate, hours);
-                                if ((empID = EmployeeManagerDA.insertHourly(hourly)) != 0) {
-                                    linkMap.put(String.valueOf(empID), hourly);
-                                    url = "/display.jsp";
+                                EmployeeManagerDA.insertHourly(hourly);
+                                for (Person p : EmployeeManagerDA.getAllEmployees()) {
+                                    linkMap.put(String.valueOf(p.getEmployeeID()), p);
                                 }
+                                url = "/display.jsp";
                             }
                         } else if (type.equals("Salary")) {
                             if (!tempEmpSalary.isEmpty()) {
                                 salary = new EmpSalary(fName, mName, lName, empID,
                                         bDay, hireDate, type, employeeSalary);
-                                if ((empID = EmployeeManagerDA.insertSalary(salary)) != 0) {
-                                    linkMap.put(String.valueOf(empID), salary);
-                                    url = "/display.jsp";
+                                EmployeeManagerDA.insertSalary(salary);
+                                for (Person p : EmployeeManagerDA.getAllEmployees()) {
+                                    linkMap.put(String.valueOf(p.getEmployeeID()), p);
                                 }
-                            }
-                        } else if (type.equals("None")){
-                            person = new Person(empID, fName, mName, lName,
-                                    bDay, hireDate, type);
-                            if ((empID = EmployeeManagerDA.insertEmployee(person)) != 0) {
-                                linkMap.put(String.valueOf(empID), person);
                                 url = "/display.jsp";
                             }
+                        } else if (type.equals("None")) {
+                            person = new Person(empID, fName, mName, lName,
+                                    bDay, hireDate, type);
+                            EmployeeManagerDA.insertEmployee(person);
+                            for (Person p : EmployeeManagerDA.getAllEmployees()) {
+                                linkMap.put(String.valueOf(p.getEmployeeID()), p);
+                            }
+                            url = "/display.jsp";
                         }
                     }
                 }
