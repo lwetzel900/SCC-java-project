@@ -38,15 +38,26 @@
             <input class="searchInput" type="text" name="lName" value="${lName}"><br>
 
             <label>Employee Type</label>
-            <input class="radio" type="radio" name="empType" value="Salary">Salary<br>
+            <input class="radio" type="radio" name="empType" id="Salary" value="Salary">Salary
+            <c:if test="${message != null}"><span class="error">*</span></c:if><br>
 
-            <label>&nbsp;</label>
-            <input class="searchInput" type="radio" name="empType" value="Hourly">Hourly<br>
+                <label>&nbsp;</label>
+                <input class="searchInput" type="radio" name="empType" id="Hourly" value="Hourly">Hourly
+            <c:if test="${message != null}"><span class="error">*</span></c:if><br>
 
-            <label>&nbsp;</label>
-            <input class="searchInput" type="radio" name="empType" value="None">None<br>
+                <label>&nbsp;</label>
+                <input class="searchInput" type="radio" name="empType" id="None" value="None">None
+            <c:if test="${message != null}"><span class="error">*</span></c:if><br>
 
-            
+                <label>Salary</label>
+                <input class="searchInput" type="number" name="salary" min="1000" step="1000"value="${salary}"><br>
+
+            <label>Hourly Rate</label>
+            <input class="searchInput" type="number" name="rate"  step="0.01" min="0" value="${rate}"><br>
+
+            <label>Average Weekly Hours</label>
+            <input class="searchInput" type="number" name="hours"
+                   min="1" value="${hours}"><br>
 
             <label>Birth Date</label>
             <input class="searchInput" type="date" name="bDay" max="${today}"value="${bDay}"><br>
@@ -54,7 +65,12 @@
             <label>Hire Date</label>
             <input class="searchInput" type="date" name="hireDate" value="${hireDate}" max="${today}"><br>
 
-            <label>&nbsp;</label>
+            <c:if test="${message != null}">
+                <label class="error">Please select type</label>
+            </c:if>
+            <c:if test="${message == null}">
+                <label>&nbsp;</label>
+            </c:if>
             <input class="searchInput"  type="submit" value="Add">
 
         </form>

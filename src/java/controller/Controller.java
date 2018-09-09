@@ -6,6 +6,8 @@
 package controller;
 
 import business.Person;
+import business.EmpHourly;
+import business.EmpSalary;
 import data.EmployeeManagerDA;
 import java.io.IOException;
 
@@ -115,14 +117,48 @@ public class Controller extends HttpServlet {
                 String fName = request.getParameter("fName");
                 String mName = request.getParameter("mName");
                 String lName = request.getParameter("lName");
-                String type = request.getParameter("type");
+                String type = request.getParameter("empType");
                 String tempEmpID = request.getParameter("empID");
                 Integer empID = null;
                 String tempBDay = request.getParameter("bDay");
                 LocalDate bDay = null;
                 String tempHireDate = request.getParameter("hireDate");
                 hireDate = null;
+                String tempHours = request.getParameter("hours");
+                Double hours = null;
+                String tempRate = request.getParameter("rate");
+                Double rate = null;
+                String tempEmpSalary = request.getParameter("salary");
+                Double employeeSalary = null;
+
                 Person person = null;
+                EmpHourly hourly = null;
+                EmpSalary salary = null;
+
+                if (type == null || type.isEmpty()) {
+                    message += "Must pick a type. <br>";
+                    url = "/add.jsp";
+                } else if (type.equals("Hourly")) {
+                    try {
+                        hours = Double.parseDouble(tempHours);
+                    } catch (NumberFormatException e) {
+                        message += "need hours. <br>";
+                        url = "/add.jsp";
+                    }
+                    try {
+                        rate = Double.parseDouble(tempRate);
+                    } catch (NumberFormatException e) {
+                        message += "need rate. <br>";
+                        url = "/add.jsp";
+                    }
+                } else if (type.equals("Salary")) {
+                    try {
+                        employeeSalary = Double.parseDouble(tempEmpSalary);
+                    } catch (NumberFormatException e) {
+                        message += "Needs a salary. <br>";
+                        url = "/add.jsp";
+                    }
+                }
 
                 if (!tempEmpID.isEmpty()) {
                     try {
@@ -148,6 +184,7 @@ public class Controller extends HttpServlet {
                     message += "Birthday needs to be a present and a date <br>";
                     url = "/add.jsp";
                 }
+
                 if (fName == null || fName.isEmpty()) {
                     message += "Need a first name <br>";
                     url = "/add.jsp";
@@ -158,11 +195,33 @@ public class Controller extends HttpServlet {
                     message += "That ID already exists. Pick Something else";
                     url = "/add.jsp";
                 } else {
-                    if (!tempHireDate.isEmpty() && !tempBDay.isEmpty()) {
+                    if (!tempHireDate.isEmpty() && !tempBDay.isEmpty() && type != null) {
                         for (Person p : EmployeeManagerDA.getAllEmployees()) {
                             linkMap.put(String.valueOf(p.getEmployeeID()), p);
-                            
-                            person = new Person(empID, fName, mName, lName, bDay, hireDate, type);
+                        }
+//************************************************Something may be off here***********************************************
+
+                        if (type.equals("Hourly")) {
+                            if (!tempHours.isEmpty() || !tempRate.isEmpty()) {
+                                hourly = new EmpHourly(fName, mName, lName, empID,
+                                        bDay, hireDate, type, rate, hours);
+                                if ((empID = EmployeeManagerDA.insertHourly(hourly)) != 0) {
+                                    linkMap.put(String.valueOf(empID), hourly);
+                                    url = "/display.jsp";
+                                }
+                            }
+                        } else if (type.equals("Salary")) {
+                            if (!tempEmpSalary.isEmpty()) {
+                                salary = new EmpSalary(fName, mName, lName, empID,
+                                        bDay, hireDate, type, employeeSalary);
+                                if ((empID = EmployeeManagerDA.insertSalary(salary)) != 0) {
+                                    linkMap.put(String.valueOf(empID), salary);
+                                    url = "/display.jsp";
+                                }
+                            }
+                        } else if (type.equals("None")){
+                            person = new Person(empID, fName, mName, lName,
+                                    bDay, hireDate, type);
                             if ((empID = EmployeeManagerDA.insertEmployee(person)) != 0) {
                                 linkMap.put(String.valueOf(empID), person);
                                 url = "/display.jsp";
@@ -179,9 +238,12 @@ public class Controller extends HttpServlet {
                 request.setAttribute("fName", fName);
                 request.setAttribute("mName", mName);
                 request.setAttribute("lName", lName);
-                request.setAttribute("type", type);
+//                request.setAttribute("empType", type);
                 request.setAttribute("bDay", bDay);
                 request.setAttribute("hireDate", hireDate);
+                request.setAttribute("salary", tempEmpSalary);
+                request.setAttribute("hours", tempHours);
+                request.setAttribute("rate", tempRate);
                 break;
 
             case "delete":

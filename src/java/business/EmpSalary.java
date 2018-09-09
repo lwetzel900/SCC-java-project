@@ -5,7 +5,6 @@
  */
 package business;
 
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 
@@ -20,7 +19,8 @@ public class EmpSalary extends Person {
     public EmpSalary() {
     }
 
-    public EmpSalary(String firstName, String middleName, String lastName, int employeeID, LocalDate birthDate, LocalDate hireDate, String type, double salary) {
+    public EmpSalary(String firstName, String middleName, String lastName, int employeeID, 
+            LocalDate birthDate, LocalDate hireDate, String type, double salary) {
         super(employeeID, firstName, middleName, lastName, birthDate, hireDate, type);
         this.salary = salary;
     }

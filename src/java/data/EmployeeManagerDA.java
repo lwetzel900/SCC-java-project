@@ -147,7 +147,7 @@ public class EmployeeManagerDA {
         }
     }
 
-    public static int insertEmployee(Person person) {
+    public static int insertHourly(EmpHourly person) {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement ps = null;
@@ -167,7 +167,95 @@ public class EmployeeManagerDA {
             ps.setString(4, person.getLastName());
             //taken from https://stackoverflow.com/questions/29168494/how-to-convert-localdate-to-sql-date-java
             ps.setDate(5, Date.valueOf(person.getBirthDate()));
-            ps.setDate(6, Date.valueOf(person.getHireDate()))
+            ps.setDate(6, Date.valueOf(person.getHireDate()));
+            ps.setNull(7, Types.DOUBLE);
+            ps.setDouble(8, person.getRate());
+            ps.setDouble(9, person.getRate());
+            ps.setString(10, person.getType());
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            int generatedKey = 0;
+            if (rs.next()) {
+                generatedKey = rs.getInt(1);
+            }
+            return generatedKey;
+        } catch (SQLException e) {
+            //need something for exception
+            System.out.println(e);
+            return 0;
+        } finally {
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+    }
+
+    public static int insertSalary(EmpSalary person) {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+
+        String query
+                = "INSERT INTO Persons (EmployeeID, FirstName, MiddleName,LastName,BirthDate,HireDate,Salary,Rate,AvgWeeklyHours,EmployeeType) "
+                + "VALUES (?,?,?,?,?,?,?,?,?,?)";
+        try {
+            ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            if (person.getEmployeeID() != 0) {
+                ps.setInt(1, person.getEmployeeID());
+            } else {
+                ps.setNull(1, Types.INTEGER);
+            }
+            ps.setString(2, person.getFirstName());
+            ps.setString(3, person.getMiddleName());
+            ps.setString(4, person.getLastName());
+            //taken from https://stackoverflow.com/questions/29168494/how-to-convert-localdate-to-sql-date-java
+            ps.setDate(5, Date.valueOf(person.getBirthDate()));
+            ps.setDate(6, Date.valueOf(person.getHireDate()));
+            ps.setDouble(7, person.getSalary());
+            ps.setNull(8, Types.DOUBLE);
+            ps.setNull(9, Types.DOUBLE);
+            ps.setString(10, person.getType());
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            int generatedKey = 0;
+            if (rs.next()) {
+                generatedKey = rs.getInt(1);
+            }
+            return generatedKey;
+        } catch (SQLException e) {
+            //need something for exception
+            System.out.println(e);
+            return 0;
+        } finally {
+            DBUtil.closePreparedStatement(ps);
+            pool.freeConnection(connection);
+        }
+    }
+
+    public static int insertEmployee(Person person) {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        
+        String query
+                = "INSERT INTO Persons (EmployeeID, FirstName, MiddleName,LastName,BirthDate,HireDate,Salary,Rate,AvgWeeklyHours,EmployeeType) "
+                + "VALUES (?,?,?,?,?,?,?,?,?,?)";
+        try {
+            ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            if (person.getEmployeeID() != 0) {
+                ps.setInt(1, person.getEmployeeID());
+            } else {
+                ps.setNull(1, Types.INTEGER);
+            }
+            ps.setString(2, person.getFirstName());
+            ps.setString(3, person.getMiddleName());
+            ps.setString(4, person.getLastName());
+            //taken from https://stackoverflow.com/questions/29168494/how-to-convert-localdate-to-sql-date-java
+            ps.setDate(5, Date.valueOf(person.getBirthDate()));
+            ps.setDate(6, Date.valueOf(person.getHireDate()));
+            ps.setNull(7, Types.DOUBLE);
+            ps.setNull(8, Types.DOUBLE);
+            ps.setNull(9, Types.DOUBLE);
+            ps.setString(10, person.getType());
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
             int generatedKey = 0;
@@ -204,51 +292,55 @@ public class EmployeeManagerDA {
             ps.setDate(1, Date.valueOf(searchDate));
             rs = ps.executeQuery();
             while (rs.next()) {
-                if (rs.getString("EmployeeType").equals("Hourly")) {
-                    EmpHourly hourly = new EmpHourly();
-                    hourly.setEmployeeID(rs.getInt("EmployeeID"));
-                    hourly.setFirstName(rs.getString("FirstName"));
-                    if (rs.getString("MiddleName") == null) {
-                        hourly.setMiddleName("");
-                    } else {
-                        hourly.setMiddleName(rs.getString("MiddleName"));
-                    }
-                    hourly.setLastName(rs.getString("LastName"));
-                    hourly.setBirthDate(rs.getDate("BirthDate").toLocalDate());
-                    hourly.setHireDate(rs.getDate("HireDate").toLocalDate());
-                    hourly.setType(rs.getString("EmployeeType"));
-                    hourly.setRate(rs.getDouble("Rate"));
-                    hourly.setAvgWeeklyHours(rs.getDouble("avgWeeklyHours"));
-                    allEmps.add(hourly);
-                } else if (rs.getString("EmployeeType").equals("Salary")) {
-                    EmpSalary salary = new EmpSalary();
-                    salary.setEmployeeID(rs.getInt("EmployeeID"));
-                    salary.setFirstName(rs.getString("FirstName"));
-                    if (rs.getString("MiddleName") == null) {
-                        salary.setMiddleName("");
-                    } else {
-                        salary.setMiddleName(rs.getString("MiddleName"));
-                    }
-                    salary.setLastName(rs.getString("LastName"));
-                    salary.setBirthDate(rs.getDate("BirthDate").toLocalDate());
-                    salary.setHireDate(rs.getDate("HireDate").toLocalDate());
-                    salary.setType(rs.getString("EmployeeType"));
-                    salary.setSalary(rs.getDouble("Salary"));
-                    allEmps.add(salary);
-                } else {
-                    Person person = new Person();
-                    person.setEmployeeID(rs.getInt("EmployeeID"));
-                    person.setFirstName(rs.getString("FirstName"));
-                    if (rs.getString("MiddleName") == null) {
-                        person.setMiddleName("");
-                    } else {
-                        person.setMiddleName(rs.getString("MiddleName"));
-                    }
-                    person.setLastName(rs.getString("LastName"));
-                    person.setBirthDate(rs.getDate("BirthDate").toLocalDate());
-                    person.setHireDate(rs.getDate("HireDate").toLocalDate());
-                    person.setType(rs.getString("EmployeeType"));
-                    allEmps.add(person);
+                switch (rs.getString("EmployeeType")) {
+                    case "Hourly":
+                        EmpHourly hourly = new EmpHourly();
+                        hourly.setEmployeeID(rs.getInt("EmployeeID"));
+                        hourly.setFirstName(rs.getString("FirstName"));
+                        if (rs.getString("MiddleName") == null) {
+                            hourly.setMiddleName("");
+                        } else {
+                            hourly.setMiddleName(rs.getString("MiddleName"));
+                        }
+                        hourly.setLastName(rs.getString("LastName"));
+                        hourly.setBirthDate(rs.getDate("BirthDate").toLocalDate());
+                        hourly.setHireDate(rs.getDate("HireDate").toLocalDate());
+                        hourly.setType(rs.getString("EmployeeType"));
+                        hourly.setRate(rs.getDouble("Rate"));
+                        hourly.setAvgWeeklyHours(rs.getDouble("avgWeeklyHours"));
+                        allEmps.add(hourly);
+                        break;
+                    case "Salary":
+                        EmpSalary salary = new EmpSalary();
+                        salary.setEmployeeID(rs.getInt("EmployeeID"));
+                        salary.setFirstName(rs.getString("FirstName"));
+                        if (rs.getString("MiddleName") == null) {
+                            salary.setMiddleName("");
+                        } else {
+                            salary.setMiddleName(rs.getString("MiddleName"));
+                        }
+                        salary.setLastName(rs.getString("LastName"));
+                        salary.setBirthDate(rs.getDate("BirthDate").toLocalDate());
+                        salary.setHireDate(rs.getDate("HireDate").toLocalDate());
+                        salary.setType(rs.getString("EmployeeType"));
+                        salary.setSalary(rs.getDouble("Salary"));
+                        allEmps.add(salary);
+                        break;
+                    default:
+                        Person person = new Person();
+                        person.setEmployeeID(rs.getInt("EmployeeID"));
+                        person.setFirstName(rs.getString("FirstName"));
+                        if (rs.getString("MiddleName") == null) {
+                            person.setMiddleName("");
+                        } else {
+                            person.setMiddleName(rs.getString("MiddleName"));
+                        }
+                        person.setLastName(rs.getString("LastName"));
+                        person.setBirthDate(rs.getDate("BirthDate").toLocalDate());
+                        person.setHireDate(rs.getDate("HireDate").toLocalDate());
+                        person.setType(rs.getString("EmployeeType"));
+                        allEmps.add(person);
+                        break;
                 }
             }
             return allEmps;

@@ -5,7 +5,7 @@
  */
 package business;
 
-import java.text.DecimalFormat;
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 
@@ -21,7 +21,8 @@ public class EmpHourly extends Person {
     public EmpHourly() {
     }
 
-    public EmpHourly(String firstName, String middleName, String lastName, int employeeID, LocalDate birthDate, LocalDate hireDate, String type, double rate, double avgWeeklyHours) {
+    public EmpHourly(String firstName, String middleName, String lastName, int employeeID, 
+            LocalDate birthDate, LocalDate hireDate, String type, double rate, double avgWeeklyHours) {
         super(employeeID, firstName, middleName, lastName, birthDate, hireDate, type);
         this.rate = rate;
         this.avgWeeklyHours = avgWeeklyHours;
@@ -30,7 +31,8 @@ public class EmpHourly extends Person {
     //EDIT THIS
     @Override
     public String calcYearlyCompensation() {
-        double pay = (rate * avgWeeklyHours) * 51;
+        
+        BigDecimal pay = (BigDecimal.valueOf(avgWeeklyHours).multiply(BigDecimal.valueOf(rate))).multiply(new BigDecimal(51));
         NumberFormat nf = NumberFormat.getCurrencyInstance();
         return nf.format(pay);
     }
